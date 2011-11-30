@@ -1,0 +1,23 @@
+h1. Triple-A: Alternative AVR (Arduino) Library
+
+Lightweight library for people using AVR Libc and Makefiles for their Atmel development. Work in progress and not really in usable state yet.
+
+h2. Pins
+
+Macro implementations of digital_write(), digital_read(), analog_write() and analog_read() functions.
+
+h2. UART
+
+Redirects STDIN and STDOUT to UART so you can use printf() and friends for debugging.
+
+h2. SPI
+
+Hardware SPI helpers.
+
+h2. Shift
+
+Both hardware SPI and bitbang versions of shift_in() and shit_out() functions.
+
+h2. Timer
+
+Hardware timer helpers.
