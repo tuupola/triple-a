@@ -45,7 +45,7 @@
 #define PORT_TO_OUTPUT_REGISTER(x) OUTPUT_REGISTER_AT_##x
 #define PORT_TO_INPUT_REGISTER(x) INPUT_REGISTER_AT_##x
 
-//#ifdef PORTA
+#ifdef PORTA
 #define DIRECTION_REGISTER_AT_PortA DDRA
 #define OUTPUT_REGISTER_AT_PortA    PORTA
 #define INPUT_REGISTER_AT_PortA     PINA
@@ -67,12 +67,13 @@
 #define MASK_AT_PIN_A5  _BV(5)
 #define MASK_AT_PIN_A6  _BV(6)
 #define MASK_AT_PIN_A7  _BV(7)
-//#endif
+#endif
 
 //#ifdef PORTB
-#define DIRECTION_REGISTER_AT_PortB        DDRB
-#define OUTPUT_REGISTER_AT_PortB     PORTB
-#define INPUT_REGISTER_AT_PortB      PINB
+#define DIRECTION_REGISTER_AT_PortB DDRB
+#define OUTPUT_REGISTER_AT_PortB    PORTB
+#define INPUT_REGISTER_AT_PortB     PINB
+
 #define PORT_AT_PIN_B0          PortB
 #define PORT_AT_PIN_B1          PortB
 #define PORT_AT_PIN_B2          PortB
@@ -81,6 +82,7 @@
 #define PORT_AT_PIN_B5          PortB
 #define PORT_AT_PIN_B6          PortB
 #define PORT_AT_PIN_B7          PortB
+
 #define MASK_AT_PIN_B0       _BV(0)
 #define MASK_AT_PIN_B1       _BV(1)
 #define MASK_AT_PIN_B2       _BV(2)
@@ -95,88 +97,89 @@
 #define DIRECTION_REGISTER_AT_PortC        DDRC
 #define OUTPUT_REGISTER_AT_PortC     PORTC
 #define INPUT_REGISTER_AT_PortC      PINC
-#define PORT_AT_PIN_PC0         PortC
-#define PORT_AT_PIN_PC1         PortC
-#define PORT_AT_PIN_PC2         PortC
-#define PORT_AT_PIN_PC3         PortC
-#define PORT_AT_PIN_PC4         PortC
-#define PORT_AT_PIN_PC5         PortC
-#define PORT_AT_PIN_PC6         PortC
-#define PORT_AT_PIN_PC7         PortC
-#define MASK_AT_PIN_PC0      _BV(0)
-#define MASK_AT_PIN_PC1      _BV(1)
-#define MASK_AT_PIN_PC2      _BV(2)
-#define MASK_AT_PIN_PC3      _BV(3)
-#define MASK_AT_PIN_PC4      _BV(4)
-#define MASK_AT_PIN_PC5      _BV(5)
-#define MASK_AT_PIN_PC6      _BV(6)
-#define MASK_AT_PIN_PC7      _BV(7)
+#define PORT_AT_PIN_C0         PortC
+#define PORT_AT_PIN_C1         PortC
+#define PORT_AT_PIN_C2         PortC
+#define PORT_AT_PIN_C3         PortC
+#define PORT_AT_PIN_C4         PortC
+#define PORT_AT_PIN_C5         PortC
+#define PORT_AT_PIN_C6         PortC
+#define PORT_AT_PIN_C7         PortC
+
+#define MASK_AT_PIN_C0      _BV(0)
+#define MASK_AT_PIN_C1      _BV(1)
+#define MASK_AT_PIN_C2      _BV(2)
+#define MASK_AT_PIN_C3      _BV(3)
+#define MASK_AT_PIN_C4      _BV(4)
+#define MASK_AT_PIN_C5      _BV(5)
+#define MASK_AT_PIN_C6      _BV(6)
+#define MASK_AT_PIN_C7      _BV(7)
 #endif
 
 #ifdef PORTD
 #define DIRECTION_REGISTER_AT_PortD        DDRD
 #define OUTPUT_REGISTER_AT_PortD     PORTD
 #define INPUT_REGISTER_AT_PortD      PIND
-#define PORT_AT_PIN_PD0         PortD
-#define PORT_AT_PIN_PD1         PortD
-#define PORT_AT_PIN_PD2         PortD
-#define PORT_AT_PIN_PD3         PortD
-#define PORT_AT_PIN_PD4         PortD
-#define PORT_AT_PIN_PD5         PortD
-#define PORT_AT_PIN_PD6         PortD
-#define PORT_AT_PIN_PD7         PortD
-#define MASK_AT_PIN_PD0      _BV(0)
-#define MASK_AT_PIN_PD1      _BV(1)
-#define MASK_AT_PIN_PD2      _BV(2)
-#define MASK_AT_PIN_PD3      _BV(3)
-#define MASK_AT_PIN_PD4      _BV(4)
-#define MASK_AT_PIN_PD5      _BV(5)
-#define MASK_AT_PIN_PD6      _BV(6)
-#define MASK_AT_PIN_PD7      _BV(7)
+#define PORT_AT_PIN_D0         PortD
+#define PORT_AT_PIN_D1         PortD
+#define PORT_AT_PIN_D2         PortD
+#define PORT_AT_PIN_D3         PortD
+#define PORT_AT_PIN_D4         PortD
+#define PORT_AT_PIN_D5         PortD
+#define PORT_AT_PIN_D6         PortD
+#define PORT_AT_PIN_D7         PortD
+#define MASK_AT_PIN_D0      _BV(0)
+#define MASK_AT_PIN_D1      _BV(1)
+#define MASK_AT_PIN_D2      _BV(2)
+#define MASK_AT_PIN_D3      _BV(3)
+#define MASK_AT_PIN_D4      _BV(4)
+#define MASK_AT_PIN_D5      _BV(5)
+#define MASK_AT_PIN_D6      _BV(6)
+#define MASK_AT_PIN_D7      _BV(7)
 #endif
 
 #ifdef PORTE
 #define DIRECTION_REGISTER_AT_PortE        DDRE
 #define OUTPUT_REGISTER_AT_PortE     PORTE
 #define INPUT_REGISTER_AT_PortE      PINE
-#define PORT_AT_PIN_PE0         PortE
-#define PORT_AT_PIN_PE1         PortE
-#define PORT_AT_PIN_PE2         PortE
-#define PORT_AT_PIN_PE3         PortE
-#define PORT_AT_PIN_PE4         PortE
-#define PORT_AT_PIN_PE5         PortE
-#define PORT_AT_PIN_PE6         PortE
-#define PORT_AT_PIN_PE7         PortE
-#define MASK_AT_PIN_PE0      _BV(0)
-#define MASK_AT_PIN_PE1      _BV(1)
-#define MASK_AT_PIN_PE2      _BV(2)
-#define MASK_AT_PIN_PE3      _BV(3)
-#define MASK_AT_PIN_PE4      _BV(4)
-#define MASK_AT_PIN_PE5      _BV(5)
-#define MASK_AT_PIN_PE6      _BV(6)
-#define MASK_AT_PIN_PE7      _BV(7)
+#define PORT_AT_PIN_E0         PortE
+#define PORT_AT_PIN_E1         PortE
+#define PORT_AT_PIN_E2         PortE
+#define PORT_AT_PIN_E3         PortE
+#define PORT_AT_PIN_E4         PortE
+#define PORT_AT_PIN_E5         PortE
+#define PORT_AT_PIN_E6         PortE
+#define PORT_AT_PIN_E7         PortE
+#define MASK_AT_PIN_E0      _BV(0)
+#define MASK_AT_PIN_E1      _BV(1)
+#define MASK_AT_PIN_E2      _BV(2)
+#define MASK_AT_PIN_E3      _BV(3)
+#define MASK_AT_PIN_E4      _BV(4)
+#define MASK_AT_PIN_E5      _BV(5)
+#define MASK_AT_PIN_E6      _BV(6)
+#define MASK_AT_PIN_E7      _BV(7)
 #endif
 
 #ifdef PORTF
 #define DIRECTION_REGISTER_AT_PortF        DDRF
 #define OUTPUT_REGISTER_AT_PortF     PORTF
 #define INPUT_REGISTER_AT_PortF      PINF
-#define PORT_AT_PIN_PF0         PortF
-#define PORT_AT_PIN_PF1         PortF
-#define PORT_AT_PIN_PF2         PortF
-#define PORT_AT_PIN_PF3         PortF
-#define PORT_AT_PIN_PF4         PortF
-#define PORT_AT_PIN_PF5         PortF
-#define PORT_AT_PIN_PF6         PortF
-#define PORT_AT_PIN_PF7         PortF
-#define MASK_AT_PIN_PF0      _BV(0)
-#define MASK_AT_PIN_PF1      _BV(1)
-#define MASK_AT_PIN_PF2      _BV(2)
-#define MASK_AT_PIN_PF3      _BV(3)
-#define MASK_AT_PIN_PF4      _BV(4)
-#define MASK_AT_PIN_PF5      _BV(5)
-#define MASK_AT_PIN_PF6      _BV(6)
-#define MASK_AT_PIN_PF7      _BV(7)
+#define PORT_AT_PIN_F0         PortF
+#define PORT_AT_PIN_F1         PortF
+#define PORT_AT_PIN_F2         PortF
+#define PORT_AT_PIN_F3         PortF
+#define PORT_AT_PIN_F4         PortF
+#define PORT_AT_PIN_F5         PortF
+#define PORT_AT_PIN_F6         PortF
+#define PORT_AT_PIN_F7         PortF
+#define MASK_AT_PIN_F0      _BV(0)
+#define MASK_AT_PIN_F1      _BV(1)
+#define MASK_AT_PIN_F2      _BV(2)
+#define MASK_AT_PIN_F3      _BV(3)
+#define MASK_AT_PIN_F4      _BV(4)
+#define MASK_AT_PIN_F5      _BV(5)
+#define MASK_AT_PIN_F6      _BV(6)
+#define MASK_AT_PIN_F7      _BV(7)
 #endif
 
 #define MERGE_TO_FUNC(prefix, id)   prefix##_##id
@@ -216,6 +219,5 @@
 
 #define pin_mode(pin, mode)     SET_##mode(pin)
 #define pin_pullup(pin, val)    DIGITAL_WRITE_##val(pin)
-
 
 #endif /* PINS_H */
