@@ -16,10 +16,10 @@
  || defined(__AVR_ATmega168P__)  \
  || defined(__AVR_ATmega328__)   \
  || defined (__AVR_ATmega328P__)
-#define SPI_SS   PB2 /* Slave Select. PORTB2 LATCH RCK*/
-#define SPI_SCLK PB5 /* Serial clock. PORTB5 CLOCK */
-#define SPI_MOSI PB3 /* Master Out Slave In. PORTB3 DATA*/
-#define SPI_MISO PB4 /* Master In Slave Out PORTB4 */
+#define SPI_SS   B2 /* Slave Select. PORTB2 LATCH RCK*/
+#define SPI_SCLK B5 /* Serial clock. PORTB5 CLOCK */
+#define SPI_MOSI B3 /* Master Out Slave In. PORTB3 DATA*/
+#define SPI_MISO B4 /* Master In Slave Out PORTB4 */
 
 /* http://www.pjrc.com/teensy/atmega32u4.pdf */
 #elif defined (__AVR_ATmega32U4__)
