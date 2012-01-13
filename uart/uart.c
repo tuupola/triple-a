@@ -18,31 +18,71 @@
 #endif
 #include <util/setbaud.h>
 
+#if defined (UBRR0H)
+
+#warning UART0
+#define UBRRxH UBRR0H
+#define UBRRxL UBRR0L
+#define UCSRxA UCSR0A
+#define U2Xx   U2X0
+#define UCSRxC UCSR0C
+#define UCSZx1 UCSZ01
+#define UCSZx0 UCSZ00
+#define UCSRxB UCSR0B
+#define RXENx  RXEN0
+#define TXENx  TXEN0
+#define UDREx  UDRE0 
+#define RXCx   RXC0
+#define UDRx   UDR0
+#define UDRIEx UDRIE0
+
+#elif defined (UBRR1H)
+
+#warning UART1
+#define UBRRxH UBRR1H
+#define UBRRxL UBRR1L
+#define UCSRxA UCSR1A
+#define U2Xx   U2X1 
+#define UCSRxC UCSR1C
+#define UCSZx1 UCSZ11
+#define UCSZx0 UCSZ10
+#define UCSRxB UCSR1B
+#define RXENx  RXEN1
+#define TXENx  TXEN1
+#define UDREx  UDRE1 
+#define RXCx   RXC1
+#define UDRx   UDR1
+#define UDRIEx UDRIE1
+
+#else
+#error No UART?
+#endif
+
 /* http://www.cs.mun.ca/~rod/Winter2007/4723/notes/serial/serial.html */
 
 void uart_init(void) {
-    UBRR0H = UBRRH_VALUE;
-    UBRR0L = UBRRL_VALUE;
+    UBRRxH = UBRRH_VALUE;
+    UBRRxL = UBRRL_VALUE;
     
 #if USE_2X
-    UCSR0A |= _BV(U2X0);
+    UCSRxA |= _BV(U2Xx);
 #else
-    UCSR0A &= ~(_BV(U2X0));
+    UCSRxA &= ~(_BV(U2Xx));
 #endif
 
-    UCSR0C = _BV(UCSZ01) | _BV(UCSZ00); /* 8-bit data */ 
-    UCSR0B = _BV(RXEN0) | _BV(TXEN0);   /* Enable RX and TX */    
+    UCSRxC = _BV(UCSZx1) | _BV(UCSZx0); /* 8-bit data */ 
+    UCSRxB = _BV(RXENx) | _BV(TXENx);   /* Enable RX and TX */    
 }
 
 void uart_putchar(char c, FILE *stream) {
     if (c == '\n') {
         uart_putchar('\r', stream);
     }
-    loop_until_bit_is_set(UCSR0A, UDRE0);
-    UDR0 = c;
+    loop_until_bit_is_set(UCSRxA, UDREx);
+    UDRx = c;
 }
 
 char uart_getchar(FILE *stream) {
-    loop_until_bit_is_set(UCSR0A, RXC0);
-    return UDR0;
+    loop_until_bit_is_set(UCSRxA, RXCx);
+    return UDRx;
 }
