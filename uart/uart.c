@@ -74,15 +74,17 @@ void uart_init(void) {
     UCSRxB = _BV(RXENx) | _BV(TXENx);   /* Enable RX and TX */    
 }
 
-void uart_putchar(char c, FILE *stream) {
+int uart_putchar(char c, FILE *stream) {
     if (c == '\n') {
         uart_putchar('\r', stream);
     }
     loop_until_bit_is_set(UCSRxA, UDREx);
     UDRx = c;
+    
+    return 0;
 }
 
-char uart_getchar(FILE *stream) {
+int uart_getchar(FILE *stream) {
     loop_until_bit_is_set(UCSRxA, RXCx);
     return UDRx;
 }

@@ -104,9 +104,7 @@ void uart_init(void) {
     sei();  
 }
 
-
-//int uart_putchar(char c, FILE *stream) {
-void uart_putchar(char c, FILE *stream) {
+int uart_putchar(char c, FILE *stream) {
     if (c == '\n') {
         uart_putchar('\r', stream);
     }
@@ -121,10 +119,10 @@ void uart_putchar(char c, FILE *stream) {
         UCSRxB |= _BV(UDRIEx);  
     }
     
-    //return 0;
+    return 0;
 }
 
-char uart_getchar(FILE *stream) {
+int uart_getchar(FILE *stream) {
     int read_pointer = (rx_buffer.start + 1) % UART_RX_BUFFER_SIZE;
     
     rx_buffer.start = read_pointer;
