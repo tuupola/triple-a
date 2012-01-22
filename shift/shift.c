@@ -1,6 +1,9 @@
 /*
  * shift.c
  *
+ * This file is part of Triple-A library:
+ *   https://github.com/tuupola/triple-a
+ *
  * Copyright 2011-2012 Mika Tuupola
  *
  * Licensed under the MIT license:
@@ -18,9 +21,12 @@ uint8_t shift_in(void) {
     
     for(int i=0; i<8; i++) {
         pin_value = digital_read(SHIFT_IN_DATA);  
-        byte |= (pin_value << ((8 - 1) - i));          
-        /* printf("%d = %d \n", ((8 - 1) - i), pin_value); */
-                
+        byte |= (pin_value << ((8 - 1) - i));
+        
+        #ifdef DEBUG
+        printf("%d = %d \n", ((8 - 1) - i), pin_value);
+        #endif
+        
         /* Pulse clock to write next bit. */
         digital_write(SHIFT_IN_CLOCK, LOW);
         digital_write(SHIFT_IN_CLOCK, HIGH);
