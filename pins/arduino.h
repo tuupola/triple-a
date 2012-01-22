@@ -12,6 +12,9 @@
  * This file is based on Arduino project.
  *   https://github.com/arduino/Arduino/
  *
+ * This file is part of Triple-A library:
+ *   https://github.com/tuupola/triple-a
+ *
  * Copyright (c) 2007-2011 David A. Mellis, Mika tuupola
  *
  * Licensed under the LGPL 2.1 license:

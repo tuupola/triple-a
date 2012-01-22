@@ -1,6 +1,9 @@
 /*
  * shift.h
  *
+ * This file is part of Triple-A library:
+ *   https://github.com/tuupola/triple-a
+ *
  * Copyright 2011-2012 Mika Tuupola
  *
  * Licensed under the MIT license:
@@ -16,7 +19,7 @@
 #define SHIFT_IN_CLOCK   B1
 
 #define SHIFT_OUT_LATCH  B0
-#define SHIFT_OUT_DATA   B3
+#define SHIFT_OUT_DATA   B2
 #define SHIFT_OUT_CLOCK  B1
 
 uint8_t shift_in(void);

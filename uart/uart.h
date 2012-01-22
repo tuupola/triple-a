@@ -1,4 +1,9 @@
 /*
+ * uart.h
+ *
+ * This file is part of Triple-A library:
+ *   https://github.com/tuupola/triple-a
+ *
  * Copyright 2011 Mika Tuupola
  *
  * Licensed under the MIT license:

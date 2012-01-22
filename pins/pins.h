@@ -15,6 +15,9 @@
  *   http://code.google.com/p/arduino-lite/
  *   http://www.csksoft.net/
  *
+ * This file is part of Triple-A library:
+ *   https://github.com/tuupola/triple-a
+ *
  * Copyright (c) 2010-2011 Shikai Chen, Mika Tuupola
  *
  * Licensed under the LGPL 2.1 license:
@@ -27,7 +30,7 @@
 #include <avr/sfr_defs.h>
 #include <avr/io.h>
 
-#include "arduino.h"
+/* #include "arduino.h" */
 
 #define HIGH 0x1
 #define LOW  0x0

@@ -16,7 +16,7 @@ Hardware SPI helpers.
 
 h2. Shift
 
-Both hardware SPI and bitbang versions of shift_in() and shit_out() functions.
+Bitbanged of shift_in() and shit_out() functions. 
 
 h2. Timer
 

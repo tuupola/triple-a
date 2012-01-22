@@ -1,6 +1,9 @@
 /*
  * Copyright 2011 Mika Tuupola
  *
+ * This file is part of Triple-A library:
+ *   https://github.com/tuupola/triple-a
+ *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
