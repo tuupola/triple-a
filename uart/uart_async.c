@@ -1,4 +1,9 @@
 /*
+ * uart_async.c
+ *
+ * This file is part of Triple-A library:
+ *   https://github.com/tuupola/triple-a
+ *
  * Copyright 2011 Mika Tuupola
  *
  * Licensed under the MIT license:
@@ -18,11 +23,11 @@
 #include <util/setbaud.h>
 
 #ifndef UART_RX_BUFFER_SIZE
-#define UART_RX_BUFFER_SIZE 64
+#define UART_RX_BUFFER_SIZE 128
 #endif
 
 #ifndef UART_TX_BUFFER_SIZE
-#define UART_TX_BUFFER_SIZE 64
+#define UART_TX_BUFFER_SIZE 256
 #endif
 
 #if defined (UBRR0H)
