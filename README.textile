@@ -16,8 +16,12 @@ Hardware SPI helpers.
 
 h2. Shift
 
-Bitbanged of shift_in() and shit_out() functions. 
+Bitbanged shift_in() and shit_out() functions. 
 
 h2. Timer
 
 Hardware timer helpers.
+
+h2. MAX7219
+
+Code for driving led matrices with MAX7219.
