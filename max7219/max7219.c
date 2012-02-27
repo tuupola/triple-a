@@ -82,7 +82,12 @@ void max7219_putpixel(uint8_t x, uint8_t y, uint8_t value) {
     printf("maxx7219_putpixel(%d, %d, %d) -> ", x, y, value);
     printf("chip %d, bit %d \n", chip, bit);
     #endif
-    
+
+    /* Check for boundaries. */
+    if ((x > MATRIX_WIDTH - 1) || (y > MATRIX_HEIGHT - 1)) {
+        return;
+    }
+
     if (1 == value) {
         /* Set bit in frame buffer. */
         frame_buffer[y * NUM_DEVICES + chip] |= _BV(bit);
@@ -92,12 +97,7 @@ void max7219_putpixel(uint8_t x, uint8_t y, uint8_t value) {
     }
 
     /* Sync current row. */
-    for (uint8_t chip = 0; chip < NUM_DEVICES; chip++) {
-        shift_out(y + 1);
-        shift_out(frame_buffer[y * NUM_DEVICES + chip]);
-    }
-    /* Latch whole row at the time. */
-    shift_out_latch();
+    max7219_sync_row(y);
 
 }
 
@@ -113,38 +113,44 @@ void max7219_toggle(uint8_t x, uint8_t y, uint8_t value) {
     uint8_t bit = 7 - x % 8;
     
     frame_buffer[y * NUM_DEVICES + chip] ^= (_BV(bit));
+    max7219_sync_row(y);
 }
 
 void max7219_clear(void) {
+    uint8_t *pointer;
+
+    pointer = &frame_buffer[0];
+    for (uint8_t index = 0; index < 8 * NUM_DEVICES; ++index) {
+        *pointer = 0b00000000;
+        ++pointer;
+    }
+    max7219_sync_frame_buffer();
+}
+
+void max7219_sprite(int8_t offset_x, int8_t offset_y, uint8_t sprite[]) {
     for(uint8_t y = 0; y <= 7; y++) {
-        for (uint8_t i = 0; i < NUM_DEVICES; i++) {
-            frame_buffer[y + i] = 0b00000000;
-            max7219_register(y + 1, frame_buffer[y + i]);
-        }        
+        for(uint8_t x = 0; x <= 7; x++) {
+            max7219_putpixel(x + offset_x, y + offset_y, (sprite[y] & _BV(x)) != 0);
+        }
     }
 }
 
-/*
-void max7219_sprite(uint8_t sprite[]) {
-    for(uint8_t y = 0; y <= 7; y++) {
-        frame_buffer[y] = sprite[y];
-        //max7219_register(y+1, sprite[y]);
+/* Syncs one row from frame buffer to matrix. */
+void max7219_sync_row(uint8_t y) {
+    /* Sync current row. */
+    for (uint8_t chip = 0; chip < NUM_DEVICES; chip++) {
+        shift_out(y + 1);
+        shift_out(frame_buffer[y * NUM_DEVICES + chip]);
     }
-    // Hack not to lose last line on second device. 
-    //max7219_register(NOOP, NOOP);
+    /* Latch whole row at the time. */
+    shift_out_latch();
 }
-*/
 
 /* Syncs contents of frame buffer to matrix. */
 void max7219_sync_frame_buffer(void) {
-    for(uint8_t y = 0; y < 8 * NUM_DEVICES;  y += NUM_DEVICES) {
-        for (uint8_t chip = 0; chip < NUM_DEVICES; chip++) {
-            shift_out(y / NUM_DEVICES + 1);
-            shift_out(frame_buffer[y + chip]);
-        }
-        /* Latch whole row at the time. */
-        shift_out_latch();
-    } 
+    for (uint8_t y = 0; y < 8;  y++) {
+        max7219_sync_row(y);
+    }
 }
 
 /* ASCII dump framebuffer to stdout. You probably want to */
