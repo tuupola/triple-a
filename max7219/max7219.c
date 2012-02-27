@@ -1,5 +1,5 @@
 /*
- * mac7219.c
+ * max7219.c
  * 
  * This code is Alpha quality. API might change any time!
  *
@@ -30,6 +30,7 @@
 #include <stdint.h>
 #include <avr/io.h>
 
+#include "max7219/max7219.h"
 #include "shift/shift.h"
 
 /* Registers */
@@ -51,14 +52,16 @@
 #define MODE_MATRIX     0x00
 #define MODE_DECODE     0xff
 
-#define NUM_DEVICES     1
+#define NUM_DEVICES     2
+#define MATRIX_WIDTH    16
+#define MATRIX_HEIGHT   8
 
-uint8_t frame_buffer[8];
+uint8_t frame_buffer[8 * NUM_DEVICES];
 
 void max7219_register(uint8_t register_number, uint8_t value) {
     shift_out(register_number);
     shift_out(value);
-    shift_out_latch();    
+    shift_out_latch();
 }
 
 void max7219_init(void) {
@@ -71,37 +74,97 @@ void max7219_init(void) {
     max7219_register(SHUTDOWN, 0x01);           /* Normal operation. */
 }
 
-void max7219_write(uint8_t x, uint8_t y, uint8_t value) {
+void max7219_putpixel(uint8_t x, uint8_t y, uint8_t value) {
+
+
+    uint8_t chip = x >> 3;   /* Divide by 8 to find chip. */
+    uint8_t bit = 7 - x % 8; /* 0 is left most pixel in matrix. */
+    
+    #ifdef DEBUG
+    printf("maxx7219_putpixel(%d, %d, %d) -> ", x, y, value);  
+    printf("chip %d, bit %d \n", chip, bit);
+    #endif
+    
     if (1 == value) {
-        frame_buffer[y] |= _BV(7 - x);      /* Set bit in frame buffer. */
+        frame_buffer[y * NUM_DEVICES + chip] |= _BV(bit);      /* Set bit in frame buffer. */
     } else {
-        frame_buffer[y] &= ~(_BV(7 - x));   /* Unset bit in frame buffer. */
+        frame_buffer[y * NUM_DEVICES + chip] &= ~(_BV(bit));   /* Unset bit in frame buffer. */
     }
-    max7219_register(y+1, frame_buffer[y]); /* Sync row in chip. */
+
+    /* Sync current row. */
+    for (uint8_t chip = 0; chip < NUM_DEVICES; chip++) {
+        shift_out(y + 1);
+        shift_out(frame_buffer[y * NUM_DEVICES + chip]);        
+    }
+    /* Latch whole row at the time. */        
+    shift_out_latch();
+
 }
 
-uint8_t max7219_read(uint8_t x, uint8_t y) {
-    return (frame_buffer[y] & _BV(7 - x)) != 0 ? 1 : 0;
+uint8_t max7219_getpixel(uint8_t x, uint8_t y) {
+    uint8_t chip = x >> 3;
+    uint8_t bit = 7 - x % 8;
+    
+    return (frame_buffer[y * NUM_DEVICES + chip] & _BV(bit)) != 0 ? 1 : 0;
 }
 
 void max7219_toggle(uint8_t x, uint8_t y, uint8_t value) {
-    frame_buffer[y] ^= (_BV(7 - x));
+    uint8_t chip = x >> 3;
+    uint8_t bit = 7 - x % 8;
+    
+    frame_buffer[y * NUM_DEVICES + chip] ^= (_BV(bit));
 }
 
-void max7219_clear() {
+void max7219_clear(void) {
     for(uint8_t y = 0; y <= 7; y++) {
-        frame_buffer[y] = 0b00000000;
-        max7219_register(y+1, frame_buffer[y]);
+        for (uint8_t i = 0; i < NUM_DEVICES; i++) {
+            frame_buffer[y + i] = 0b00000000;
+            max7219_register(y + 1, frame_buffer[y + i]);
+        }        
     }
 }
 
+/*
 void max7219_sprite(uint8_t sprite[]) {
     for(uint8_t y = 0; y <= 7; y++) {
         frame_buffer[y] = sprite[y];
-        max7219_register(y+1, sprite[y]);
+        //max7219_register(y+1, sprite[y]);
     }
+    // Hack not to lose last line on second device. 
+    //max7219_register(NOOP, NOOP);
+}
+*/
+
+/* Syncs contents of frame buffer to matrix. */
+void max7219_sync_frame_buffer(void) {
+    for(uint8_t y = 0; y < 8 * NUM_DEVICES;  y += NUM_DEVICES) {
+        for (uint8_t chip = 0; chip < NUM_DEVICES; chip++) {
+            shift_out(y / NUM_DEVICES + 1);
+            shift_out(frame_buffer[y + chip]);        
+        }
+        /* Latch whole row at the time. */        
+        shift_out_latch();
+    } 
 }
 
+/* ASCII dump framebuffer to stdout. You probably want to */
+/* redirect stdout to uart.                               */
+void max7219_dump_frame_buffer(void) {    
+    for(uint8_t y = 0; y < MATRIX_HEIGHT; y++) {
+        printf("%d", y);
 
+        for(uint8_t x = 0; x < MATRIX_WIDTH; x++) {
 
+            uint8_t chip = x >> 3;
+            uint8_t bit = x % 8;
+            
+            if (0 == bit) {
+                printf(" (%d) ", chip);                
+            }
 
+            printf("%d", max7219_getpixel(x, y));
+            
+        }   
+        printf(" %d\n", y);
+    }      
+}
