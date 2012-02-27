@@ -74,12 +74,12 @@ void max7219_init(void) {
     max7219_register(SHUTDOWN, 0x01);           /* Normal operation. */
 }
 
-void max7219_putpixel(uint8_t x, uint8_t y, uint8_t value) {
+void max7219_put_pixel(uint8_t x, uint8_t y, uint8_t value) {
     uint8_t chip = x >> 3;   /* Divide by 8 to find chip. */
     uint8_t bit = 7 - x % 8; /* 0 is left most pixel in matrix. */
     
     #ifdef DEBUG
-    printf("maxx7219_putpixel(%d, %d, %d) -> ", x, y, value);
+    printf("maxx7219_put_pixel(%d, %d, %d) -> ", x, y, value);
     printf("chip %d, bit %d \n", chip, bit);
     #endif
 
@@ -101,7 +101,7 @@ void max7219_putpixel(uint8_t x, uint8_t y, uint8_t value) {
 
 }
 
-uint8_t max7219_getpixel(uint8_t x, uint8_t y) {
+uint8_t max7219_get_pixel(uint8_t x, uint8_t y) {
     uint8_t chip = x >> 3;
     uint8_t bit = 7 - x % 8;
     
@@ -130,7 +130,7 @@ void max7219_clear(void) {
 void max7219_sprite(int8_t offset_x, int8_t offset_y, uint8_t sprite[]) {
     for(uint8_t y = 0; y <= 7; y++) {
         for(uint8_t x = 0; x <= 7; x++) {
-            max7219_putpixel(x + offset_x, y + offset_y, (sprite[y] & _BV(x)) != 0);
+            max7219_put_pixel(x + offset_x, y + offset_y, (sprite[y] & _BV(x)) != 0);
         }
     }
 }
@@ -168,7 +168,7 @@ void max7219_dump_frame_buffer(void) {
                 printf(" (%d) ", chip);
             }
 
-            printf("%d", max7219_getpixel(x, y));
+            printf("%d", max7219_get_pixel(x, y));
 
         }
         printf(" %d\n", y);

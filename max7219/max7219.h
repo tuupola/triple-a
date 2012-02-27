@@ -14,8 +14,8 @@
  
 void max7219_register(uint8_t register_number, uint8_t value);
 void max7219_init(void);
-void max7219_putpixel(uint8_t x, uint8_t y, uint8_t value);
-uint8_t max7219_getpixel(uint8_t x, uint8_t y);
+void max7219_put_pixel(uint8_t x, uint8_t y, uint8_t value);
+uint8_t max7219_get_pixel(uint8_t x, uint8_t y);
 void max7219_toggle(uint8_t x, uint8_t y, uint8_t value);
 void max7219_clear(void);
 void max7219_sprite(int8_t offset_x, int8_t offset_y, uint8_t sprite[]);
