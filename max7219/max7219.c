@@ -75,28 +75,28 @@ void max7219_init(void) {
 }
 
 void max7219_putpixel(uint8_t x, uint8_t y, uint8_t value) {
-
-
     uint8_t chip = x >> 3;   /* Divide by 8 to find chip. */
     uint8_t bit = 7 - x % 8; /* 0 is left most pixel in matrix. */
     
     #ifdef DEBUG
-    printf("maxx7219_putpixel(%d, %d, %d) -> ", x, y, value);  
+    printf("maxx7219_putpixel(%d, %d, %d) -> ", x, y, value);
     printf("chip %d, bit %d \n", chip, bit);
     #endif
     
     if (1 == value) {
-        frame_buffer[y * NUM_DEVICES + chip] |= _BV(bit);      /* Set bit in frame buffer. */
+        /* Set bit in frame buffer. */
+        frame_buffer[y * NUM_DEVICES + chip] |= _BV(bit);
     } else {
-        frame_buffer[y * NUM_DEVICES + chip] &= ~(_BV(bit));   /* Unset bit in frame buffer. */
+        /* Unset bit in frame buffer. */
+        frame_buffer[y * NUM_DEVICES + chip] &= ~(_BV(bit));
     }
 
     /* Sync current row. */
     for (uint8_t chip = 0; chip < NUM_DEVICES; chip++) {
         shift_out(y + 1);
-        shift_out(frame_buffer[y * NUM_DEVICES + chip]);        
+        shift_out(frame_buffer[y * NUM_DEVICES + chip]);
     }
-    /* Latch whole row at the time. */        
+    /* Latch whole row at the time. */
     shift_out_latch();
 
 }
@@ -140,9 +140,9 @@ void max7219_sync_frame_buffer(void) {
     for(uint8_t y = 0; y < 8 * NUM_DEVICES;  y += NUM_DEVICES) {
         for (uint8_t chip = 0; chip < NUM_DEVICES; chip++) {
             shift_out(y / NUM_DEVICES + 1);
-            shift_out(frame_buffer[y + chip]);        
+            shift_out(frame_buffer[y + chip]);
         }
-        /* Latch whole row at the time. */        
+        /* Latch whole row at the time. */
         shift_out_latch();
     } 
 }
@@ -159,12 +159,12 @@ void max7219_dump_frame_buffer(void) {
             uint8_t bit = x % 8;
             
             if (0 == bit) {
-                printf(" (%d) ", chip);                
+                printf(" (%d) ", chip);
             }
 
             printf("%d", max7219_getpixel(x, y));
-            
-        }   
+
+        }
         printf(" %d\n", y);
-    }      
+    }
 }
